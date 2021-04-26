@@ -1,0 +1,37 @@
+Formas de consumir API:
+
+  *SPA: carrega no browser
+
+  useEffect(() => {
+    fetch('http://localhost:3333/episodes')
+      .then(response => response.json())
+      .then(data => console.log(data))
+  }, []);
+
+  *SSR: carrega no server do next.js
+
+  export async function getServerSideProps() {
+    const response = await fetch('http://localhost:3333/episodes')
+    const data = await response.json())
+
+    return { 
+      props: {
+        episodes: data,
+      }
+    }
+  }
+
+  *SSG: carregamento de uma versão estática da página 
+  (exemplo dos podcasts, 1 novo por dia apenas etc etc)
+
+  export async function getStaticProps() {
+    const response = await fetch('http://localhost:3333/episodes')
+    const data = await response.json())
+
+    return { 
+      props: {
+        episodes: data,
+      }, 
+      revalidate: 60 * 60 * 8,
+    }
+  }
